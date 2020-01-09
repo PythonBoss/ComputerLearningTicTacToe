@@ -1,5 +1,7 @@
 # To clear screen
 import os
+# To give the bot a choice
+import random
 
 # Adds the board and starting values
 board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
@@ -18,6 +20,20 @@ def game_board():
     print(" " + board[6] + " || " + board[7] + " || " + board[8])
 
 
+def computer():
+    global turn
+    computer_turn = True
+    while computer_turn:
+        number = random.randrange(0, 8)
+        if board[number] == " ":
+            board[number] = "O"
+            turn = "X"
+            computer_turn = False
+            game_board()
+            check_win()
+            check_draw()
+
+
 # Swaps players turns
 def change(i):
     global turn
@@ -25,6 +41,9 @@ def change(i):
         board[i] = turn
         if turn == "X":
             turn = "O"
+            check_win()
+            check_draw()
+            computer()
         else:
             turn = "X"
     else:
@@ -102,8 +121,8 @@ while game_running:
     print("1 through 9")
     print("Left to right, top to bottom")
     game_board()
-    check_win()
     check_draw()
+    check_win()
     choice = input()
 
     if choice == "1":
